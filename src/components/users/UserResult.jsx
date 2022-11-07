@@ -6,11 +6,11 @@ import UserItem from "./UserItem";
 import GithubContext from "../context/github/GithubContext";
 
 function UserResult() {
-  const {users,fetchUsers,loading} =useContext(GithubContext)
+  const {users,loading} =useContext(GithubContext)
   // const [users, setUsers] = useState([]);
   // const [loading, setLaoding] = useState(true);
   useEffect(() => {
-    fetchUsers();
+    // fetchUsers();
   });
   // const fetchUsers = async () => {
   //   const response = await fetch(`https://api.github.com/users`);
