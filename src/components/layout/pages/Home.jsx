@@ -1,9 +1,10 @@
 import React from "react";
-
+import UserResult from "../../users/UserResult";
 function Home() {
+  
   return (
     <div>
-      <h1 className="text-6xl mb-4">Welcome</h1>
+      <UserResult/>
     </div>
   );
 }
