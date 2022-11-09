@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect ,useContext} from "react";
 // import { useState } from "react";
-import Spinner from "../layout/Spinner";
+import Spinner from "../layout/assets/Spinner";
 import UserItem from "./UserItem";
 import GithubContext from "../context/github/GithubContext";
 

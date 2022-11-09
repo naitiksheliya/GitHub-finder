@@ -11,10 +11,12 @@ export const GithubProvider = ({ children }) => {
   // const [loading, setLoading] = useState(true)
   const initialState={
     users: [],
-    loading:true,
+    user:{},
+    repos: [],
+    loading:false,
   }
   const [state,dispatch]=useReducer(githubReducer,initialState)
-  
+
   // get initial users(testing purpose)
   // const fetchUsers = async () => {
   //   setLoading();
@@ -34,7 +36,12 @@ export const GithubProvider = ({ children }) => {
     const params=new URLSearchParams({
       q:text
     })
-      const response = await fetch(`https://api.github.com/search/users?${params}`)
+      const response = await fetch(`https://api.github.com/search/users?${params}`,
+      {
+        headers: {
+          Authorization:'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',
+        },
+      })
       const {items} = await response.json()
       console.log(items);
       dispatch({
@@ -42,7 +49,43 @@ export const GithubProvider = ({ children }) => {
         payload: items,
       })
   }
+  const getUser=async(login)=>{
+    setLoading();
+      const response = await fetch(`https://api.github.com/users/${login}`,
+      {
+        headers: {
+          Authorization:'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',
+        },
+      })
+      const data = await response.json()
+      console.log(data);
+      dispatch({
+        type:'GET_USER',
+        payload: data,
+      })
+  }
+  const getUserRepos = async (login) => {
+    setLoading()
 
+    const params = new URLSearchParams({
+      sort: 'created',
+      per_page: 10,
+    })
+
+    const response = await fetch(`https://api.github.com/users/${login}/repos?${params}`,
+    {
+      headers: {
+        Authorization:'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',
+      },
+    })
+
+    const data = await response.json()
+
+    dispatch({
+      type: 'GET_REPOS',
+      payload: data,
+    })
+  }
 
 const setLoading=()=>dispatch({
   type:'SET_lOADING',
@@ -57,7 +100,11 @@ const handleClear=()=>dispatch({
       value={{
         users:state.users,
         loading:state.loading,
+        user:state.user,
+        repos:state.repos,
+        getUserRepos,
         searchUsers,
+        getUser,
         setLoading,
         handleClear,
         // fetchUsers,
